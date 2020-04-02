@@ -2,13 +2,13 @@ package gst.trainingcourse.hn19_fr_android_19_05basic_android_exam_haidm11;
 
 import android.content.Context;
 
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Instrumented test, which will execute on an Android device.
