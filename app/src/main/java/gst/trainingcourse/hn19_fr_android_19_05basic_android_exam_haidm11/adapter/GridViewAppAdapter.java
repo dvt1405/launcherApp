@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import gst.trainingcourse.hn19_fr_android_19_05basic_android_exam_haidm11.R;
 import gst.trainingcourse.hn19_fr_android_19_05basic_android_exam_haidm11.listener.OnItemClickListener;
@@ -50,18 +51,19 @@ public class GridViewAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public void onMove(int fromPosition, int toPosition) {
-//        if (fromPosition < toPosition) {
-//            for (int i = fromPosition; i < toPosition; i++) {
-//                Collections.swap(mAppList, i, i + 1);
-//            }
-//        } else {
-//            for (int i = fromPosition; i > toPosition; i--) {
-//                Collections.swap(mAppList, i, i - 1);
-//            }
-//        }
-        mAppList.get(toPosition).addAll(mAppList.get(fromPosition));
-        mAppList.remove(fromPosition);
-        notifyDataSetChanged();
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mAppList, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mAppList, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+//        mAppList.get(toPosition).addAll(mAppList.get(fromPosition));
+//        mAppList.remove(fromPosition);
+//        notifyItemChanged(toPosition);
     }
 
     public void swipe(int position, int direction) {
@@ -118,11 +120,13 @@ public class GridViewAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (type == Type.CHILD) {
-            ((ViewHolder) holder).bind(mAppList.get(position));
-        } else {
-//            ((ViewContainerHolder) holder).bind(mAppList.get(position));
-        }
+//        if (type == Type.CHILD) {
+//            ((ViewHolder) holder).bind(mAppList.get(position));
+//        } else {
+////            ((ViewContainerHolder) holder).bind(mAppList.get(position));
+//        }
+        ((ViewHolder) holder).bind(mAppList.get(position));
+        ((ViewHolder) holder).imgIcon.setOnClickListener(mViewOnClickListener);
     }
 
 
