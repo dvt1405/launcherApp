@@ -1,0 +1,15 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Basic_Android_Exam_HaiDM11</string>
+    <string name="hello_world" tools:keep="@string/hello_world">Hello World!</string>
+    <string name="example_app_name">Example app name</string>
+    <string name="app_icon">App Icon</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" tools:keep="@string/hello_blank_fragment">Hello blank fragment</string>
+    <string name="view_pager">View Pager</string>
+    <string name="gridView_app">GridView App</string>
+    <string name="next_page">Next Page</string>
+    <string name="previous_page">Previous Page</string>
+    <string name="next_viewpager_button">Next ViewPager Button</string>
+    <string name="previous_viewpager_button">Previous ViewPager_Button</string>
+</resources>

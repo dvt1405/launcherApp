@@ -1,0 +1,2 @@
+include ':app'
+rootProject.name='HN19_FR_Android_19_05.Basic_Android_Exam_HaiDM11'
