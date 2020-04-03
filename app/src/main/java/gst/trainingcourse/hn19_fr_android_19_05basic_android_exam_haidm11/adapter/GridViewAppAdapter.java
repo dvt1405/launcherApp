@@ -27,20 +27,12 @@ public class GridViewAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private OnItemClickListener mListener;
     private Type type = Type.CHILD;
     private OnUpdateItem mOnUpdateItem;
-    private final View.OnClickListener mViewOnClickListener = new View.OnClickListener() {
+    private final OnItemHolderClickListener mViewOnClickListener = new OnItemHolderClickListener() {
         @Override
-        public void onClick(View v) {
-            ViewHolder viewHolder = (ViewHolder) v.getTag();
-            if (mAppList.get(viewHolder.position).size() == 1) {
-                App app = mAppList.get(viewHolder.position).get(0);
-                if (app != null && mListener != null) {
-                    mListener.OnClick(app);
-                }
-            }
-
+        public void onItemClick(App app) {
+            mListener.OnClick(app);
         }
     };
-
     public ArrayList<ArrayList<App>> getmAppList() {
         return mAppList;
     }
@@ -115,18 +107,12 @@ public class GridViewAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         }
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        return new ViewHolder(inflater.inflate(R.layout.item_gridview_applauncher, parent, false));
+        return new ViewHolder(inflater.inflate(R.layout.item_gridview_applauncher, parent, false), mViewOnClickListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-//        if (type == Type.CHILD) {
-//            ((ViewHolder) holder).bind(mAppList.get(position));
-//        } else {
-////            ((ViewContainerHolder) holder).bind(mAppList.get(position));
-//        }
         ((ViewHolder) holder).bind(mAppList.get(position));
-        ((ViewHolder) holder).imgIcon.setOnClickListener(mViewOnClickListener);
     }
 
 
@@ -146,23 +132,27 @@ public class GridViewAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         ImageView imgIcon;
         TextView tvAppName;
         RecyclerView recyclerView;
-
-        ViewHolder(View view) {
+        private App app;
+        private OnItemHolderClickListener callback;
+        ViewHolder(View view,OnItemHolderClickListener callback) {
             super(view);
             imgIcon = view.findViewById(R.id.imgAppIcon);
             tvAppName = view.findViewById(R.id.tvAppName);
             recyclerView = view.findViewById(R.id.recyclerView);
+            this.callback = callback;
         }
 
-        int position;
+        public App getApp() {
+            return app;
+        }
 
-        public void setPosition(int position) {
-            this.position = position;
+        public void setApp(App app) {
+            this.app = app;
         }
 
         public void bind(final ArrayList<App> apps) {
             if (apps.size() == 1) {
-                App app = apps.get(0);
+                app = apps.get(0);
                 if (app.getIcon() == null) {
                     try {
                         Drawable icon = itemView.getContext().getPackageManager().getApplicationIcon(app.getPackageName());
@@ -175,6 +165,12 @@ public class GridViewAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 imgIcon.setImageDrawable(app.getIcon());
                 tvAppName.setText(app.getName());
                 recyclerView.setVisibility(View.GONE);
+                imgIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callback.onItemClick(app);
+                    }
+                });
             } else {
                 imgIcon.setVisibility(View.GONE);
                 tvAppName.setVisibility(View.GONE);
@@ -237,5 +233,9 @@ public class GridViewAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     enum Type {
         PARENT, CHILD
+    }
+
+    interface OnItemHolderClickListener {
+        public void onItemClick(App app);
     }
 }
